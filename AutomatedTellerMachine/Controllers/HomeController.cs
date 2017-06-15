@@ -17,7 +17,7 @@ namespace AutomatedTellerMachine.Controllers
         }
 
         // GET /home/about
-        // [ActionName("about-this-atm")]
+        //[ActionName("about-this-atm")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -27,7 +27,17 @@ namespace AutomatedTellerMachine.Controllers
                 
         public ActionResult Contact()
         {
-            ViewBag.TheMessage = "Having trouble? Send us a message.";            
+            /*
+             The view bag is a dynamic object that we use to pass information between the controller and the view 
+             that doesn't belong in a model since it's not real application data. It's a little bit like a session object, 
+             except it's going to be disposed of as soon as your view is rendered, and it's only available if you return a
+             view at the end of your method.
+             */
+            ViewBag.TheMessage = "Having trouble? Send us a message.";
+            /*
+             If you need something that would survive a redirect, you can use the temp data dictionary and assign a value for the message key like so
+             TempData["Message"] = test
+             */
 
             return View();
         }
@@ -36,6 +46,7 @@ namespace AutomatedTellerMachine.Controllers
         public ActionResult Contact(string message)
         {
             // TODO: send the message to HQ
+            
             ViewBag.TheMessage = "Thanks, we got your message!";
 
             return View();
