@@ -6,9 +6,11 @@ using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
 {
+    // [Authorize] // Allows any logged in user iapplied to the whole class
     public class HomeController : Controller
     {
         // GET /home/index
+        // [Authorize] // Allows any logged in user
         [MyLoggingFilter]
         public ActionResult Index()
         {
@@ -25,6 +27,7 @@ namespace AutomatedTellerMachine.Controllers
             return View("About");
         }
                 
+        [AllowAnonymous] // Allows any user
         public ActionResult Contact()
         {
             /*
