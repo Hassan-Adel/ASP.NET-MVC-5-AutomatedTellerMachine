@@ -33,7 +33,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - MVC Bank</p>
+            <p>&copy; @DateTime.Now.Year - MVC Bank - @Html.Action("Serial", "Home", new {letterCase = "lower" })</p>
         </footer>
     </div>
 

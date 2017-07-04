@@ -18,12 +18,12 @@ Layout = "MyLayout.cshtml"
         <p>
             Open your account today.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Register</a></p>
+        <p>@Html.ActionLink("Register", "Register", "Account", null, new {@class = "btn btn-default"})</p>
     </div>
     <div class="col-md-4">
         <h2>Login</h2>
         <p>Enter your account.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Login</a></p>
+        <p>@Html.ActionLink("Login", "Login", "Account", null, new {@class = "btn btn-default"})</p>
     </div>
 </div>
 @* Add scripts to a view file *@
