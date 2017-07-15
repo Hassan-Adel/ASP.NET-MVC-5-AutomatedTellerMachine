@@ -13,7 +13,7 @@ namespace AutomatedTellerMachine.Models
         [Required]
         //[StringLength(10, MinimumLength =6)]
         //Didn't use StringLength be I also want to force it to be numeric
-        [RegularExpression(@"\{6, 10}", ErrorMessage = "Account # must be between 6 and 10 digit")]
+        [RegularExpression(@"\d{6,10}", ErrorMessage = "Account # must be between 6 and 10 digits")]
         [Display(Name = "Account #")]
         public string AccountNumber { get; set; }
 
@@ -33,5 +33,9 @@ namespace AutomatedTellerMachine.Models
         }
         [DataType(DataType.Currency)]
         public decimal Balance { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
+
+        public string ApplicationUserId { get; set; }
     }
 }
