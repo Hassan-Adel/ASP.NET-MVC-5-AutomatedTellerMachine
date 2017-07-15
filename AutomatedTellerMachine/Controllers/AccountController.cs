@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using AutomatedTellerMachine.Models;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace AutomatedTellerMachine.Controllers
 {
@@ -94,6 +96,25 @@ namespace AutomatedTellerMachine.Controllers
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var db = new ApplicationDbContext();
+                    var checkingAccount = new CheckingAccount { FirstName = model.FirstName, LastName = model.LastName, AccountNumber = "000123456", Balance = 0.0m, ApplicationUserId = user.Id };
+                    try
+                    {
+                        db.CheckingAccounts.Add(checkingAccount);
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                Trace.TraceInformation("Property: {0} Error: {1}",
+                                                        validationError.PropertyName,
+                                                        validationError.ErrorMessage);
+                            }
+                        }
+                    }
                     await SignInAsync(user, isPersistent: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
