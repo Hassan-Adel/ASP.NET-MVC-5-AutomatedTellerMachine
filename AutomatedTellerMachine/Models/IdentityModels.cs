@@ -31,5 +31,7 @@ namespace AutomatedTellerMachine.Models
         }
 
         public DbSet<CheckingAccount> CheckingAccounts { get; set; }
+
+        public System.Data.Entity.DbSet<Transaction> Transactions { get; set; }
     }
 }
