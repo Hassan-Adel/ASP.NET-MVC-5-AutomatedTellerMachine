@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutomatedTellerMachine.Models;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,13 +11,23 @@ namespace AutomatedTellerMachine.Controllers
     // [Authorize] // Allows any logged in user iapplied to the whole class
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         // GET /home/index
         // [Authorize] // Allows any logged in user
         [MyLoggingFilter]
         public ActionResult Index()
         {
             // throw new StackOverflowException();
+            var userId = User.Identity.GetUserId();
+            try { 
+            var checkingAccountId = db.CheckingAccounts.Where(checkingAccount => checkingAccount.ApplicationUserId == userId).First().Id;
+            ViewBag.CheckingAccountId = checkingAccountId;
             return View();
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // GET /home/about
