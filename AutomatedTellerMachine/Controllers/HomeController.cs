@@ -1,5 +1,6 @@
 ﻿using AutomatedTellerMachine.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,9 @@ namespace AutomatedTellerMachine.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public int GetUserManager { get; private set; }
+
         // GET /home/index
         // [Authorize] // Allows any logged in user
         [MyLoggingFilter]
@@ -20,9 +24,14 @@ namespace AutomatedTellerMachine.Controllers
             // throw new StackOverflowException();
             var userId = User.Identity.GetUserId();
             try { 
-            var checkingAccountId = db.CheckingAccounts.Where(checkingAccount => checkingAccount.ApplicationUserId == userId).First().Id;
-            ViewBag.CheckingAccountId = checkingAccountId;
-            return View();
+                var checkingAccountId = db.CheckingAccounts.Where(checkingAccount => checkingAccount.ApplicationUserId == userId).First().Id;
+                ViewBag.CheckingAccountId = checkingAccountId;
+                //Get user object using UserManager
+                var manager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var user = manager.FindById(userId);
+                ViewBag.Pin = user.Pin;
+                
+                return View();
             }
             catch (Exception e)
             {
