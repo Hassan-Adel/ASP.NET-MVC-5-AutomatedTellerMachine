@@ -29,6 +29,34 @@ namespace AutomatedTellerMachine.Controllers
             return View();
         }
 
+        // GET: Transaction/Withdraw
+        public ActionResult Withdraw(int checkingAccountId)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Withdraw(Transaction transaction)
+        {
+            var userCheckingAccount = db.CheckingAccounts.Find(transaction.CheckingAccountId);
+            if(userCheckingAccount.Balance < transaction.Amount)
+            {
+                ModelState.AddModelError("Amount", "You have insufficient funds!");
+            }
+            
+            if (ModelState.IsValid)
+            {
+                transaction.Amount = -transaction.Amount;
+                db.Transactions.Add(transaction);
+                db.SaveChanges();
+                var service = new CheckingAccountService(db);
+                service.UpdateBalance(transaction.CheckingAccountId);
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+
+        }
+
         [HttpPost]
         public ActionResult Deposit(Transaction transaction)
         {
@@ -38,7 +66,7 @@ namespace AutomatedTellerMachine.Controllers
                 db.SaveChanges();
                 var service = new CheckingAccountService(db);
                 service.UpdateBalance(transaction.CheckingAccountId);
-                return View("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             return View();
             
