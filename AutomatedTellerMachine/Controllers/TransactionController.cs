@@ -29,6 +29,21 @@ namespace AutomatedTellerMachine.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Deposit(Transaction transaction)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Transactions.Add(transaction);
+                db.SaveChanges();
+                var service = new CheckingAccountService(db);
+                service.UpdateBalance(transaction.CheckingAccountId);
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+            
+        }
+
         // GET: Transaction/Withdraw
         public ActionResult Withdraw(int checkingAccountId)
         {
@@ -57,19 +72,22 @@ namespace AutomatedTellerMachine.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult Deposit(Transaction transaction)
+        public ActionResult QuickCash(int checkingAccountId, decimal amount)
         {
-            if (ModelState.IsValid)
+            //Negative amount because we're withdrawing cash
+            var transaction = new Transaction { CheckingAccountId = checkingAccountId, Amount = -amount };
+            var userCheckingAccount = db.CheckingAccounts.Find(transaction.CheckingAccountId);
+            if (userCheckingAccount.Balance < transaction.Amount)
             {
-                db.Transactions.Add(transaction);
-                db.SaveChanges();
-                var service = new CheckingAccountService(db);
-                service.UpdateBalance(transaction.CheckingAccountId);
-                return RedirectToAction("Index", "Home");
+                return View("QuickCashInsufficientFunds");
             }
-            return View();
-            
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
+            var service = new CheckingAccountService(db);
+            service.UpdateBalance(transaction.CheckingAccountId);
+            return RedirectToAction("Index", "Home");
         }
+
+
     }
 }
