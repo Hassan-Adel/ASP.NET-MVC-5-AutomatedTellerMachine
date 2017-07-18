@@ -73,7 +73,7 @@ namespace AutomatedTellerMachine.Controllers
             
             ViewBag.TheMessage = "Thanks, we got your message!";
 
-            return View();
+            return PartialView("_ContactThanks");
         }
 
         public ActionResult Foo()
