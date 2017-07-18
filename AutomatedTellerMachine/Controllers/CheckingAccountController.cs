@@ -27,6 +27,7 @@ namespace AutomatedTellerMachine.Controllers
         }
 
         // GET: CheckingAccount/Details/id
+        [Authorize(Roles = "Admin")]
         public ActionResult DetailsForAdmin(int id)
         {
             var checkingAccount = db.CheckingAccounts.Find(id);
@@ -34,6 +35,7 @@ namespace AutomatedTellerMachine.Controllers
         }
 
         // GET: CheckingAccount/List
+        [Authorize(Roles = "Admin")]
         public ActionResult List()
         {
             return View(db.CheckingAccounts.ToList());
