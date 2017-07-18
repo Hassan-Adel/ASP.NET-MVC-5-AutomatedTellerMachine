@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AutomatedTellerMachine.Controllers;
 using System.Web.Mvc;
+using AutomatedTellerMachine.Models;
 
 namespace AutomatedTellerMachine.Tests
 {
@@ -22,6 +23,17 @@ namespace AutomatedTellerMachine.Tests
             var homeController = new HomeController();
             var result = homeController.Contact("I love this bank.") as ViewResult;
             Assert.IsNotNull(result.ViewBag.TheMessage);
+        }
+
+        [TestMethod]
+        public void IsBalanceCorrectAfterDeposit()
+        {
+            var fakeDb = new FakeApplicationDbContext();
+            fakeDb.CheckingAccounts = new FakeDbSet<CheckingAccount>();
+
+            var checkingAccount = new CheckingAccount { Id = 1, AccountNumber = "000123Test", Balance = 0 };
+
+            fakeDb.CheckingAccounts.Add(checkingAccount);
         }
     }
 }

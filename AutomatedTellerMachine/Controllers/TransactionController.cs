@@ -10,7 +10,17 @@ namespace AutomatedTellerMachine.Controllers
     [Authorize]
     public class TransactionController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IApplicationDbContext db;
+
+        public TransactionController() {
+            db = new ApplicationDbContext();
+        }
+
+        //Mockup for testing
+        public TransactionController(IApplicationDbContext dbContext)
+        {
+            db = dbContext;
+        }
 
         // GET: Transaction/Deposit
         public ActionResult Deposit(int checkingAccountId)
