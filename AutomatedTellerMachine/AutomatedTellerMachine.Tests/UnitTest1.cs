@@ -34,6 +34,13 @@ namespace AutomatedTellerMachine.Tests
             var checkingAccount = new CheckingAccount { Id = 1, AccountNumber = "000123Test", Balance = 0 };
 
             fakeDb.CheckingAccounts.Add(checkingAccount);
+
+            fakeDb.Transactions = new FakeDbSet<Transaction>();
+            var transactionController = new TransactionController(fakeDb);
+            var transaction = new Transaction { CheckingAccountId = 1, Amount = 100 };
+            transactionController.Deposit(transaction);
+
+            Assert.AreEqual(100, checkingAccount.Balance);
         }
     }
 }

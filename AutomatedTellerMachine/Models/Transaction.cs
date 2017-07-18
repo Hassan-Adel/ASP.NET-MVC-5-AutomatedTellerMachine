@@ -14,7 +14,7 @@ namespace AutomatedTellerMachine.Models
         public decimal Amount { get; set; }
 
         [Required]
-        public string CheckingAccountId { get; set; }
+        public int CheckingAccountId { get; set; }
 
         public virtual CheckingAccount CheckingAccount { get; set; }
 

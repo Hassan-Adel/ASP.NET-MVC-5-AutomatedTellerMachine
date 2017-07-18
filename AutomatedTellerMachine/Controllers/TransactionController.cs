@@ -1,4 +1,5 @@
 ﻿using AutomatedTellerMachine.Models;
+using AutomatedTellerMachine.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,8 @@ namespace AutomatedTellerMachine.Controllers
             {
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
+                var service = new CheckingAccountService(db);
+                service.UpdateBalance(transaction.CheckingAccountId);
                 return View("Index", "Home");
             }
             return View();
