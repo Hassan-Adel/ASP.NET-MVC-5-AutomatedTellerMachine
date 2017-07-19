@@ -17,16 +17,43 @@
 
 <div id="formSection">
     <h3>@ViewBag.TheMessage</h3>
-
-    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "formSection" }))
-    {
-        <textarea name="message"></textarea>
+    <form method="post" id="contactform">
+        <textarea name="message" id="message"></textarea>
         <input type="submit" value="Send" />
-        // </form>
-    }
-</div>  
+    </form>
+    <img src="~/Content/Images/progress.gif" id="progress" style="display:none;" />
+</div>
 
-@section scripts{
-    
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    } 
+
+
+@section scripts
+    {
+    <script>
+        $('#contactform').submit(function () {
+            $('#progress').show();
+            $.post('', { message: $('#message').val() })
+                .done(function (response) {
+                    setTimeout(function () { $('#formSection').html(response);}, 2000);
+                });
+            return false;
+        });
+    </script>
+    }
+
+@* 07_01: Partial page updates using Microsoft jQuery Unobtrusive Ajax
+    <div id="formSection">
+        <h3>@ViewBag.TheMessage</h3>
+
+        @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "formSection" }))
+        {
+            <textarea name="message"></textarea>
+            <input type="submit" value="Send" />
+            // </form>
+        }
+    </div>
+
+    @section scripts{
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+        } 
+*@
