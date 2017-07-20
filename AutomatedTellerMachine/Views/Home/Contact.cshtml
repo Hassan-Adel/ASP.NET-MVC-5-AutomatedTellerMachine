@@ -17,28 +17,36 @@
 
 <div id="formSection">
     <h3>@ViewBag.TheMessage</h3>
-    <form method="post" id="contactform">
-        <textarea name="message" id="message"></textarea>
+    <form method="post" id="contactForm">
+        <textarea data-bind="value:message, valueUpdate:'input'" name="message" id="message" maxlength="150"></textarea>
         <input type="submit" value="Send" />
     </form>
-    <img src="~/Content/Images/progress.gif" id="progress" style="display:none;" />
+    <span data-bind="text:charactersRemaining"></span> characters remaining
+    <img style="display:none;" id="progress" src="~/Content/images/progress.gif" />
 </div>
 
-
-
-@section scripts
-    {
+@section scripts {
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
     <script>
-        $('#contactform').submit(function () {
+        function ContactViewModel() {
+            var self = this;
+            self.message = ko.observable('');
+            self.charactersRemaining = ko.computed(function () { return 150 - self.message().length; })
+        }
+
+        ko.applyBindings(new ContactViewModel());
+    </script>
+    <script>
+        $('#contactForm').submit(function () {
             $('#progress').show();
             $.post('', { message: $('#message').val() })
                 .done(function (response) {
-                    setTimeout(function () { $('#formSection').html(response);}, 2000);
+                    setTimeout(function () { $('#formSection').html(response); }, 2000);
                 });
             return false;
         });
     </script>
-    }
+}
 
 @* 07_01: Partial page updates using Microsoft jQuery Unobtrusive Ajax
     <div id="formSection">
