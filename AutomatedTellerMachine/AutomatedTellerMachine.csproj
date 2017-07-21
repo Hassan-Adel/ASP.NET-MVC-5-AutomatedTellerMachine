@@ -196,6 +196,7 @@
     <Compile Include="Models\FakeDBSet.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\TransferViewModel.cs" />
     <Compile Include="MyLoggingFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CheckingAccountService.cs" />
@@ -287,6 +288,9 @@
     <Content Include="Views\Transaction\QuickCashInsufficientFunds.cshtml" />
     <Content Include="Views\Home\_ContactThanks.cshtml" />
     <Content Include="Views\CheckingAccount\Statement.cshtml" />
+    <Content Include="Views\Transaction\_TransferForm.cshtml" />
+    <Content Include="Views\Transaction\_TransferSuccess.cshtml" />
+    <Content Include="Views\Transaction\Transfer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

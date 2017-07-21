@@ -1,0 +1,47 @@
+﻿@model AutomatedTellerMachine.Models.TransferViewModel
+@*
+    You can access params like that but they are read only
+    @Request.Params["checkingAccountId"]
+*@
+
+@using (Html.BeginForm("Transfer", "Transaction", FormMethod.Post, new { id = "transferForm" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>TransferViewModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+       <div class="form-group">
+            @Html.LabelFor(model => model.DestinationCheckingAccountNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DestinationCheckingAccountNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DestinationCheckingAccountNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!--
+        The submit button, however, has a class of cancel. This will disable the jQuery validation on submit, 
+            since I'm gonna want to call it manually. And then only if it passes will I submit the form with AJAX.
+             And that cancel class functionality isn't my creation, that's something that's built in to the jQuery validate library.     
+        -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Transfer" class="btn btn-default cancel" />
+            </div>
+        </div>
+        <img style="display:none;" id="progress" src="~/Content/images/progress.gif" /> 
+    </div>
+}
+
+@*
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
