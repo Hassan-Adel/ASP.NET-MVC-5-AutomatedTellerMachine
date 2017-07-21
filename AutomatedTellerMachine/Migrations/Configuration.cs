@@ -13,7 +13,10 @@ namespace AutomatedTellerMachine.Migrations
     {
         public Configuration()
         {
+            // Update-Database
             AutomaticMigrationsEnabled = true;
+            // -Force
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "AutomatedTellerMachine.Models.ApplicationDbContext";
         }
 
