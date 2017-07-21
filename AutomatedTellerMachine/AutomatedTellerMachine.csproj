@@ -286,6 +286,7 @@
     <Content Include="Views\Transaction\Withdraw.cshtml" />
     <Content Include="Views\Transaction\QuickCashInsufficientFunds.cshtml" />
     <Content Include="Views\Home\_ContactThanks.cshtml" />
+    <Content Include="Views\CheckingAccount\Statement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

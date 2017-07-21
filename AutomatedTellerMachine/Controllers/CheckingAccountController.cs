@@ -41,6 +41,13 @@ namespace AutomatedTellerMachine.Controllers
             return View(db.CheckingAccounts.ToList());
         }
 
+        // GET: CheckingAccount/Statment/id
+        public ActionResult Statement(int checkingAccountId)
+        {
+            var checkingAccount = db.CheckingAccounts.Find(checkingAccountId);
+            return View(checkingAccount.Transactions.ToList());
+        }
+
         // GET: CheckingAccount/Create
         public ActionResult Create()
         {
